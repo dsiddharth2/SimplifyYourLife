@@ -2,7 +2,7 @@ import unittest
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from create_update import get_git_status, main
+from DaillyUpdate.create_update import get_git_status, main
 from git import Repo
 
 class TestCreateUpdate(unittest.TestCase):
