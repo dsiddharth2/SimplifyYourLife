@@ -5,4 +5,4 @@ File Name: {file_name}
 File Modifications (Git Diff):
 {file_modifications}
 
-Please provide a concise summary of what was changed, why it was changed (if possible), and any potential impact on the project.
+Please provide a concise summary of what was changed and why it was changed.

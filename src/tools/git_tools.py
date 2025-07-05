@@ -76,10 +76,10 @@ class GitTools:
             print(f"Git error: {e}")
             return None
 
-    def get_changes_since_date(self, since_date, with_diffs=False):
+    def get_changes_since_date(self, since_date, with_diffs=False, with_commit_messages=False, author=None):
         """
         Returns a dict with a list of files changed in commits since the given date (YYYY-MM-DD),
-        and optionally their diffs.
+        optionally their diffs, and optionally the commit messages. If author is specified, includes commits where the author's name or email contains the substring (case-insensitive).
         """
         if not self.repo:
             print("No git repository found.")
@@ -93,16 +93,29 @@ class GitTools:
 
         changed_files = set()
         diffs = {}
+        commit_messages = []
         try:
             for commit in self.repo.iter_commits(since=since_date):
                 commit_date = datetime.fromtimestamp(commit.committed_date)
+                # Author filtering: substring match (case-insensitive) on name or email
+                if author:
+                    author_lower = author.lower()
+                    commit_author_name = commit.author.name.lower() if commit.author.name else ''
+                    commit_author_email = commit.author.email.lower() if commit.author.email else ''
+                    if author_lower not in commit_author_name and author_lower not in commit_author_email:
+                        continue
                 if commit_date >= since:
+                    commit_messages.append({
+                        "commit": commit.hexsha,
+                        "author": commit.author.name,
+                        "date": commit_date.isoformat(),
+                        "message": commit.message.strip()
+                    })
                     for file in commit.stats.files.keys():
                         changed_files.add(file)
                         if with_diffs:
                             try:
                                 diff_text = commit.diff(commit.parents[0] if commit.parents else None, paths=file, create_patch=True)
-                                # diff_text is a list of Diff objects; get the patch text
                                 if diff_text:
                                     diffs[file] = '\n'.join([d.diff.decode('utf-8', errors='ignore') if hasattr(d.diff, 'decode') else str(d.diff) for d in diff_text])
                                 else:
@@ -112,6 +125,8 @@ class GitTools:
             result = {"changed_files": list(changed_files)}
             if with_diffs:
                 result["diffs"] = diffs
+            if with_commit_messages:
+                result["commit_messages"] = commit_messages
             return result
         except Exception as e:
             print(f"Error reading commits: {e}")

@@ -28,7 +28,7 @@ class TestGitTools(unittest.TestCase):
 
     def test_get_changes_since_date(self):
         # Use a date far in the past to ensure some commits exist
-        result = self.git_tools.get_changes_since_date('2025-07-01', with_diffs=True)
+        result = self.git_tools.get_changes_since_date('2025-07-01', with_diffs=True, with_commit_messages=True)
         self.assertIsInstance(result, dict)
         self.assertIn('changed_files', result)
         self.assertIn('diffs', result)

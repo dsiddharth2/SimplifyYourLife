@@ -11,21 +11,7 @@ class QwenSummarizer:
     def remove_think_section(self, text):
         return re.sub(r'<think>.*?</think>\s*', '', text, flags=re.DOTALL)
 
-    def summarize(self, prompt_file, stream=False, replacements: List[Tuple[str, str]] = None):
-        """
-        Summarize the content of a prompt file using the locally hosted Qwen model.
-        Args:
-            prompt_file (str): Path to the file containing the prompt.
-            stream (bool): Whether to use streaming mode.
-            replacements (List[Tuple[str, str]]): List of (old, new) string replacements to apply to the prompt before summarizing.
-        Returns:
-            str: The summary response from the model.
-        """
-        with open(prompt_file, 'r', encoding='utf-8') as f:
-            prompt = f.read()
-        if replacements:
-            for old, new in replacements:
-                prompt = prompt.replace(old, new)
+    def _post_to_model(self, prompt, stream=False):
         payload = {
             "model": self.model,
             "prompt": prompt,
@@ -34,7 +20,9 @@ class QwenSummarizer:
         headers = {"Content-Type": "application/json"}
         response = requests.post(self.api_url, data=json.dumps(payload), headers=headers)
         response.raise_for_status()
-        data = response.json()
+        return response.json()
+
+    def _extract_summary(self, data):
         if 'response' in data:
             summary = data['response']
         else:
@@ -48,3 +36,22 @@ class QwenSummarizer:
             if not summary:
                 summary = str(data)
         return self.remove_think_section(summary)
+
+    def summarize(self, prompt_file, stream=False, replacements: List[Tuple[str, str]] = None):
+        """
+        Summarize the content of a prompt file using the locally hosted Qwen model.
+        """
+        with open(prompt_file, 'r', encoding='utf-8') as f:
+            prompt = f.read()
+        if replacements:
+            for old, new in replacements:
+                prompt = prompt.replace(old, new)
+        data = self._post_to_model(prompt, stream=stream)
+        return self._extract_summary(data)
+
+    def summarize_from_text(self, prompt_text, stream=False):
+        """
+        Summarize the given prompt text using the locally hosted Qwen model.
+        """
+        data = self._post_to_model(prompt_text, stream=stream)
+        return self._extract_summary(data)
