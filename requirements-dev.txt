@@ -4,3 +4,4 @@ gradio
 pywebview
 pywin32-ctypes
 pywin32
+pyinstaller

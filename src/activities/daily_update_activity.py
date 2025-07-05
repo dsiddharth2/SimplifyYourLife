@@ -50,5 +50,4 @@ class DaillyUpdateActivity:
             prompt_template = f.read()
         prompt = prompt_template.replace('{daily_update_context}', daily_update_context)
         final_summary = self.summarizer.summarize_from_text(prompt)
-        print("\n===== Consolidated Daily Update =====\n")
-        print(final_summary)
+        return final_summary

@@ -1,4 +1,4 @@
-Summarize the following daily work update for this project in the following format, using plain text only (no Markdown formatting):
+Summarize the following daily work update for this project in the following format. You may use Markdown formatting for clarity:
 
 - Key Progress:
   - List specific accomplishments, completed tasks, or new features (include task numbers or brief context if available).
@@ -9,7 +9,7 @@ Summarize the following daily work update for this project in the following form
 - Challenges:
   - List any blockers, issues, or note if there are none.
 
-Focus on clarity and brevity, highlighting only the most important points. Do not include unnecessary details or long explanations. Do not use Markdown formatting or special characters; use simple plain text for all output.
+Focus on clarity and brevity, highlighting only the most important points. Use Markdown formatting where appropriate for headings, lists, or emphasis.
 
 ---
 

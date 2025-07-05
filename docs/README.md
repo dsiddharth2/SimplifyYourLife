@@ -8,6 +8,9 @@ This documentation provides a detailed overview of the project structure, module
 - [Tools](tools.md)
 - [Utils](utils.md)
 - [Tests](tests.md)
+- [Release Folder](release_folder.md)
+- [UI](ui_folder.md)
+
 
 ---
 
