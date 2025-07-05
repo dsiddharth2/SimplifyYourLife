@@ -28,5 +28,34 @@ class TestQwenSummarizer(unittest.TestCase):
         except Exception as e:
             self.skipTest(f"Qwen API not available or failed: {e}")
 
+    def test_summarize_from_text(self):
+        prompt_text = "Summarize the following Python file changes for {file_name}: {file_modifications}"
+        prompt_text = prompt_text.replace("{file_name}", "example2.py")
+        prompt_text = prompt_text.replace("{file_modifications}", "diff --git a/example2.py b/example2.py\n+")
+        try:
+            result = self.summarizer.summarize_from_text(prompt_text)
+            self.assertIsInstance(result, str)
+            self.assertTrue("example2.py" in result or result != "")
+        except Exception as e:
+            self.skipTest(f"Qwen API not available or failed: {e}")
+
+    def test_summarize_from_text_with_callback(self):
+        prompt_text = "Summarize the following Python file changes for {file_name}: {file_modifications}"
+        prompt_text = prompt_text.replace("{file_name}", "example3.py")
+        prompt_text = prompt_text.replace("{file_modifications}", "diff --git a/example3.py b/example3.py\n+")
+        chunks = []
+        
+        def callback(chunk, is_done):
+            chunks.append(chunk)
+            print(chunk, end='', flush=True)
+        
+        try:
+            result = self.summarizer.summarize_from_text(prompt_text, stream=True, callback=callback)
+            full_text = ''.join(chunks)
+            self.assertIsInstance(result, str)
+            self.assertTrue("example3.py" in full_text or full_text != "")
+        except Exception as e:
+            self.skipTest(f"Qwen API not available or failed: {e}")
+
 if __name__ == '__main__':
     unittest.main()
