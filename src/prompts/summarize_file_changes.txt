@@ -1,8 +1,6 @@
 Summarize the following file and the changes made to it in the context of the project.
 
-File Name: {file_name}
-
 File Modifications (Git Diff):
-{file_modifications}
+{file_changes_context}
 
 Please provide a concise summary of what was changed and why it was changed.

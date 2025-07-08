@@ -1,6 +1,8 @@
 import unittest
 import os
 import sys
+from datetime import datetime, timedelta
+
 sysPath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 sys.path.insert(0, sysPath)
 from src.activities.daily_update_activity import DaillyUpdateActivity
@@ -18,7 +20,9 @@ class TestDaillyUpdateActivity(unittest.TestCase):
     def test_run(self):
         # This will print the daily update summary; ensure Qwen and Git repo are available
         try:
-            self.activity.run(since_date='2025-07-02')
+            # Get yesterday's date
+            yesterday = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+            self.activity.run(since_date=yesterday)
         except Exception as e:
             self.skipTest(f"Test skipped due to error: {e}")
 
