@@ -2,7 +2,9 @@
 from PyInstaller.utils.hooks import collect_data_files
 
 datas = [('C:\\2_WorkSpace\\SYL\\venv\\Lib\\site-packages\\safehttpx\\version.txt', 'safehttpx'),
-         ('C:\\2_WorkSpace\\SYL\\venv\\Lib\\site-packages\\groovy\\version.txt', 'groovy')]
+         ('C:\\2_WorkSpace\\SYL\\venv\\Lib\\site-packages\\groovy\\version.txt', 'groovy'),
+         ('C:\\2_WorkSpace\\SYL\\src\\prompts\\summarize_daily_update.txt', 'src\\prompts'),
+         ('C:\\2_WorkSpace\\SYL\\src\\prompts\\summarize_file_changes.txt', 'src\\prompts')]
 datas += collect_data_files('gradio')
 datas += collect_data_files('gradio_client')
 

@@ -11,7 +11,7 @@ class GitTools:
         if not isinstance(project_dirs, list):
             raise TypeError("project_dirs must be a list of directory paths (str)")
         self.project_dirs = project_dirs
-        self.repos = self._get_repos()
+        self.repos = self.get_git_repos()
         if mark_as_safe:
             for repo, dir_path in zip(self.repos, self.project_dirs):
                 if repo:
@@ -28,13 +28,12 @@ class GitTools:
         except GitCommandError as e:
             print(f"Error marking directory as safe: {e}")
 
-    def _get_repos(self):
+    def get_git_repos(self):
         repos = []
         for dir_path in self.project_dirs:
             git_dir = os.path.join(dir_path, '.git')
             if not os.path.exists(git_dir):
                 print(f"Directory '{dir_path}' is not a git repository.")
-                repos.append(None)
                 continue
             try:
                 repos.append(Repo(dir_path))

@@ -27,7 +27,7 @@ with gr.Blocks(title="SYL") as demo:
         ]
     )
 #For Debugging and direct runs
-demo.launch(show_api=False, show_error=False)
+# demo.launch(show_api=False, show_error=False)
 
-# if __name__ == "__main__":
-#     demo.launch()
+if __name__ == "__main__":
+    demo.launch()

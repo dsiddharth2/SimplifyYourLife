@@ -25,15 +25,13 @@ def tool_daily_summary(message=None):
         return
     
     # Now read each path and print it back to front end
-    for path in project_paths:
-        yield prepare_message(f"Processing path: {path}")
-        daily_activity = DaillyUpdateActivity(path)
+    daily_activity = DaillyUpdateActivity(project_paths)
 
-        # Get yesterday's date
-        since_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-        response = daily_activity.run(since_date=since_date, check_for_current_changes=True, callback=callback)
-        if response:
-            yield prepare_message(f"{response}")
-        else:
-            yield prepare_message(f"No updates found for {path}.")
+    # Get yesterday's date
+    since_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+    response = daily_activity.run(since_date=since_date, stream=True, check_for_current_changes=False, callback=callback)
+    if response:
+        yield prepare_message(f"{response}")
+    else:
+        yield prepare_message(f"No updates found for {path}.")
     #end for
