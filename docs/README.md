@@ -24,5 +24,10 @@ This documentation provides a detailed overview of the project structure, module
 - Python 3.x
 - GitPython (`pip install gitpython`)
 - requests (`pip install requests`)
+**Ollama must be installed and running.**
+**You must pull and have the Qwen or Qwen3:latest model installed in Ollama before running this project.**
+  - To install Qwen3:latest, run: `ollama pull qwen3:latest`
+  - For more info, see [Ollama documentation](https://ollama.com/)
+  - For Qwen model info, see [Qwen on Ollama](https://ollama.com/library/qwen3)
 - A locally hosted Qwen LLM (for summarization)
 

@@ -13,6 +13,13 @@ class DaillyUpdateActivity:
         self.tasks = []
 
     def run(self, since_date=None, check_for_current_changes = False, stream=False, callback=None):
+        
+        # Check if Qwen is running
+        responsecheck = self.summarizer.check_ollama_and_model()
+        if not responsecheck['status']:
+            return responsecheck['message']
+        #end if
+
         # 1. Summarize per file
         summaries = []
         today = datetime.date.today().strftime("%A, %d %B %Y")

@@ -38,6 +38,7 @@ class QwenSummarizer:
             model (str): The model name to use for summarization.
         """
         self.api_url = f"{host}/api/generate"
+        self.api_tags = f"{host}/api/tags"
         self.model = model
 
     def remove_think_section(self, text):
@@ -195,3 +196,28 @@ class QwenSummarizer:
         if not stream:
             return self._extract_summary(data) if remove_think else data.get('response', str(data))
         return self._extract_summary(data)
+
+    def check_ollama_and_model(self):
+        """
+        Checks if Ollama is running and if the Qwen model is available.
+        Returns a dict with 'status' (bool) and 'message' (str).
+        """
+        # Check if Ollama is running
+        try:
+            response = requests.get(self.api_tags, timeout=2)
+            response.raise_for_status()
+        except requests.exceptions.ConnectionError:
+            msg = (f"Ollama is not running or not reachable at {self.api_url.replace('/api/generate', '')}. "
+                   "Please install and start Ollama: https://ollama.com/download")
+            return {"status": False, "message": msg}
+        except Exception as e:
+            return {"status": False, "message": f"Error connecting to Ollama: {e}"}
+        # Check if Qwen model is available
+        try:
+            tags = response.json().get('models', [])
+            if not any(self.model.lower() in tag.get('name', '').lower() for tag in tags):
+                msg = f"Qwen model '{self.model}' is not available in Ollama. Run: ollama pull {self.model}"
+                return {"status": False, "message": msg}
+        except Exception as e:
+            return {"status": False, "message": f"Error checking Qwen model: {e}"}
+        return {"status": True, "message": "Ollama and Qwen model are available."}

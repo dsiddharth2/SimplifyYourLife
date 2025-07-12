@@ -22,8 +22,31 @@ This project provides a suite of utilities and tools designed to simplify your d
 - Python 3.x
 - GitPython (`pip install gitpython`)
 - requests (`pip install requests`)
-- A locally hosted Qwen LLM (for summarization)
+
+## Prerequisites
+  - **Ollama must be installed and running.**
+  - **You must pull and have the Qwen or Qwen3:latest model installed in Ollama before running this project.**  
+  - To install Qwen3:latest, run: `ollama pull qwen3:latest`
+  - For more info, see [Ollama documentation](https://ollama.com/)
+  - For Qwen model info, see [Qwen on Ollama](https://ollama.com/library/qwen3)
+  - A locally hosted Qwen LLM (for summarization)
 
 ---
 
+## Releases
+- The current stable release is **v1.0**. See the release notes in [docs/release_notes/v1.0.md](docs/release_notes/v1.0.md) for details.
+- We encourage you to use v1.0 and contribute feedback, bug reports, or new features via pull requests and issues.
+
 For more details, see the documentation in the [docs/](docs/README.md) folder.
+
+## Contributing
+We welcome contributions from the community! You can help by:
+- Reporting bugs or issues
+- Suggesting new features or improvements
+- Submitting pull requests for code, documentation, or tests
+
+**Contribution Guidelines:**
+- Please create your feature or fix branches from the `development` branch (not `main`).
+- After making your changes, submit a pull request to merge your branch into `development`.
+- Review the release notes and documentation before contributing.
+- For major changes, open an issue first to discuss what you would like to change.

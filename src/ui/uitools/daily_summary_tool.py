@@ -13,10 +13,12 @@ def callback(message, is_done):
 
 def tool_daily_summary(message=None):
     yield prepare_message("Starting Daily Summary tool...")
+    
+    # check if message is provided
     if message is None:
         yield prepare_message("No input message provided.")
         return
-
+    
     extractPathsTool = ExtractPathsTool()
     project_paths = extractPathsTool.extract_paths(message)
     
