@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from git import Repo, InvalidGitRepositoryError, GitCommandError
+from git import Repo, InvalidGitRepositoryError, GitCommandError, Git
 from typing import List
 
 class GitTools:
@@ -98,6 +98,10 @@ class GitTools:
         Runs for all project dirs.
         """
         results = []
+
+        # Get the global git user.name just in case
+        global_user_name = self.get_global_user_name()
+
         for repo, dir_path in zip(self.repos, self.project_dirs):
             if not repo:
                 print(f"No git repository found for {dir_path}.")
@@ -109,6 +113,16 @@ class GitTools:
                 print("Date format should be YYYY-MM-DD")
                 results.append(None)
                 continue
+
+            # Get the user name and email from the get_local_user_info
+            local_user_info = self.get_local_user_info(repo_index=self.project_dirs.index(dir_path)) if self.project_dirs else None
+            if local_user_info:
+                author = author or local_user_info.get('name', None)
+
+            # If local user info is NOT available, then use global user name
+            if not local_user_info and not author:
+                author = global_user_name
+
             changed_files = set()
             diffs = {}
             commit_messages = []
@@ -150,3 +164,34 @@ class GitTools:
                 print(f"Error reading commits in {dir_path}: {e}")
                 results.append(None)
         return results
+
+    def get_global_user_name(self):
+        """
+        Returns the global git user.name from config using GitPython.
+        """
+
+        try:
+            git_cmd = Git()
+            user_name = git_cmd.config('--global', 'user.name')
+            return user_name.strip()
+        except Exception as e:
+            print(f"Error reading global git user.name: {e}")
+            return None
+
+    def get_local_user_info(self, repo_index=0):
+        """
+        Returns the local git user.name and user.email from the repository config.
+        repo_index: index of the project_dirs list to select which repo to use.
+        """
+        try:
+            repo = self.repos[repo_index]
+            if not repo:
+                print("No git repository found.")
+                return None
+            config_reader = repo.config_reader()
+            user_name = config_reader.get_value('user', 'name', None)
+            user_email = config_reader.get_value('user', 'email', None)
+            return {"name": user_name, "email": user_email}
+        except Exception as e:
+            print(f"Error reading local git user info: {e}")
+            return None

@@ -13,12 +13,7 @@ class DaillyUpdateActivity:
         self.tasks = []
 
     def run(self, since_date=None, check_for_current_changes = False, stream=False, callback=None):
-        # 1. Get commit history and current file changes
-        if since_date is None:
-            since_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
-        commit_info = self.git_tools.get_changes_since_date(since_date, with_commit_messages=True, author='Sid')
-
-        # 2. Summarize per file
+        # 1. Summarize per file
         summaries = []
         today = datetime.date.today().strftime("%A, %d %B %Y")
         status = f"🗓️ Daily Status for {today}"
@@ -44,6 +39,11 @@ class DaillyUpdateActivity:
                 summaries.append(f"Summary of all file changes:\n{summary}")
         #end if
 
+        # Get commit history and current file changes
+        if since_date is None:
+            since_date = (datetime.date.today() - datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+
+        commit_info = self.git_tools.get_changes_since_date(since_date, with_commit_messages=True)
         commit_summaries = []
         if commit_info:
             for project_commit_info in commit_info:
