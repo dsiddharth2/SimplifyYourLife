@@ -2,7 +2,8 @@ from src.ui.uitools.daily_summary_tool import tool_daily_summary
 from src.ui.uitools.hello_world_tool import tool_hello_world
 
 TOOLS = {
-    "Daily Summary": tool_daily_summary
+    "None": None,
+    "Daily Summary": tool_daily_summary,    
 }
 
 def get_tool_function(tool_name):

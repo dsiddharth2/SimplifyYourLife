@@ -20,20 +20,30 @@ def tool_daily_summary(message=None):
         return
     
     extractPathsTool = ExtractPathsTool()
-    project_paths = extractPathsTool.extract_paths(message)
+    result = extractPathsTool.extract_paths_and_summary_with_llm(message)
+    
+    # Extract project paths from the result dictionary
+    project_paths = result.get("project_paths", [])
+    work_summary = result.get("work_summary", "")
+    
+    # Display the work summary to the user
+    work_summary_message = ""
+    if work_summary and work_summary != "Failed to parse response structure":
+        work_summary_message = work_summary
     
     if not project_paths:
         yield prepare_message("No project paths found in the input message.")
+        yield prepare_message(f"Debug info: {result}")
         return
     
     # Now read each path and print it back to front end
-    daily_activity = DaillyUpdateActivity(project_paths)
+    daily_activity = DaillyUpdateActivity(project_paths, work_summary_message)
 
     # Get yesterday's date
     since_date = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
-    response = daily_activity.run(since_date=since_date, stream=True, check_for_current_changes=False, callback=callback)
+    response = daily_activity.run(since_date=since_date, stream=True, check_for_current_changes=True, callback=callback)
     if response:
         yield prepare_message(f"{response}")
     else:
-        yield prepare_message(f"No updates found for {path}.")
+        yield prepare_message(f"No updates found for the specified project paths.")
     #end for

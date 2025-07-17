@@ -4,10 +4,11 @@ from src.tools.git_tools import GitTools
 from src.utils.qwen_summarizer import QwenSummarizer
 
 class DaillyUpdateActivity:
-    def __init__(self, project_dirs=None):
+    def __init__(self, project_dirs=None, work_summary_message: str = ""):
         if project_dirs is None:
             project_dirs = []
         self.project_dirs = project_dirs
+        self.work_summary_message = work_summary_message
         self.git_tools = GitTools(self.project_dirs)
         self.summarizer = QwenSummarizer()
         self.tasks = []
@@ -23,8 +24,9 @@ class DaillyUpdateActivity:
         # 1. Summarize per file
         summaries = []
         today = datetime.date.today().strftime("%A, %d %B %Y")
-        status = f"🗓️ Daily Status for {today}"
+        status = f"🗓️ Daily Status for {today}"        
         status += "✅ Tasks for Today:"
+        status += f"💬 Discussions and meetings : \n- {self.work_summary_message}" if self.work_summary_message else ""
 
         # For each changed file, collect all diffs and ask the model at once
         if check_for_current_changes:

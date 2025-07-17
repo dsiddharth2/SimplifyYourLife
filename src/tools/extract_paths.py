@@ -44,8 +44,42 @@ class ExtractPathsTool:
         except Exception:
             return []
 
-if __name__ == "__main__":
-    # Example usage
-    tool = ExtractPathsTool()
-    example = "My Code is in the following path : C:\\2_WorkSpace\\BluB0X\\BBX_AI and also /home/user/project. Can you summarize this for me?"
-    print(tool.extract_paths(example))
+    def extract_paths_and_summary_with_llm(self, text: str) -> dict:
+        """
+        Uses the extract_paths_and_activity prompt to extract both file/directory paths 
+        and work summary from a daily update text.
+        Returns a dictionary with 'project_paths' (list) and 'work_summary' (str).
+        """
+        import os
+        
+        # Get the path to the extract_paths_and_activity prompt
+        prompt_file = os.path.abspath(os.path.join(
+            os.path.dirname(__file__), 
+            '../prompts/extract_paths_and_activity.txt'
+        ))
+        
+        # Prepare replacements for the prompt
+        replacements = [("{daily_update_context}", text)]
+        
+        try:
+            # Call the Qwen LLM using the specific prompt file
+            result = self.qwen.summarize(prompt_file, replacements=replacements)
+            
+            # Try to parse the result as JSON
+            import json
+            try:
+                parsed_result = json.loads(result)
+                
+                # Validate the expected structure
+                if isinstance(parsed_result, dict) and \
+                   "project_paths" in parsed_result and \
+                   "work_summary" in parsed_result:
+                    return parsed_result
+                else:
+                    return {"project_paths": [], "work_summary": "Failed to parse response structure"}
+                    
+            except json.JSONDecodeError:
+                return {"project_paths": [], "work_summary": f"Failed to parse JSON: {result}"}
+                
+        except Exception as e:
+            return {"project_paths": [], "work_summary": f"Error calling LLM: {str(e)}"}
