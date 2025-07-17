@@ -1,25 +1,38 @@
-Summarize the following daily work update for this project in the following format. You may use Markdown formatting for clarity:
+Analyze the following daily work update and provide a comprehensive summary that captures both technical progress and contextual insights.
 
-- Key Progress:
-  - List specific accomplishments, completed tasks, or new features (include task numbers or brief context if available).
+## Instructions:
+Transform the raw update into a professional, structured summary that highlights impact, progress patterns, and actionable insights.
 
-- Next Steps:
-  - List upcoming actions, plans, or priorities.
+## Output Format:
 
-- Challenges:
-  - List any blockers, issues, or note if there are none.
+### 🎯 **Key Accomplishments**
+- **[Feature/Area]**: Brief description of what was completed and its significance
+- **[Technical Work]**: Code changes, implementations, or system improvements with business value
+- **[Process/Workflow]**: Any process improvements, setup work, or workflow optimizations
+- **[Meetings/Collaboration]**: Key discussions, decisions made, or collaborative work completed
 
-Focus on clarity and brevity, highlighting only the most important points. Use Markdown formatting where appropriate for headings, lists, or emphasis.
+### 🚧 **Challenges & Blockers**
+- **[Issue Type]**: Description of the challenge and its impact on progress
+- **[Resolution Status]**: Current state (resolved, in-progress, escalated, etc.)
+- **[Discussion Points]**: Any unresolved topics from meetings or collaboration sessions
+- If none: "No significant blockers encountered"
+
+### 🤝 **Meeting & Discussion Summary**
+- **Participants**: Who was involved in key discussions or meetings
+- **Key Decisions**: Important decisions made or agreements reached
+- **Action Items**: Any follow-up tasks or commitments from meetings
+- If none: "No meetings or collaborative discussions today"
 
 ---
 
+**Daily Update Context:**
 {daily_update_context}
 
 ---
 
-- Key Progress:
-  - List specific accomplishments, completed tasks, or new features (include task numbers or brief context if available).
-- Next Steps:
-  - List upcoming actions, plans, or priorities.
-- Challenges:
-  - List any blockers, issues, or note if there are none.
+**Guidelines:**
+- Use active voice and focus on impact rather than just activities
+- Quantify progress where possible (files changed, features completed, etc.)
+- Identify patterns in the work (learning new tech, fixing legacy issues, etc.)
+- Keep each point concise but informative (1-2 sentences max)
+- Use relevant emojis sparingly for visual organization

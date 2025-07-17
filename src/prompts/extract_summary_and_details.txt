@@ -1,0 +1,7 @@
+Given the following text, extract only a summary of the activities or tasks described, explicitly excluding any project paths, file names, or folder locations. Do not include any project paths in the output.
+
+Text:
+{Paste your text here}
+
+Output:
+Concise summary of activities/tasks, excluding project paths
