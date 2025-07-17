@@ -1,0 +1,53 @@
+Extract the following information from the daily work update and provide the output in the specified format:
+
+## Task: Extract Project Paths and User Context
+
+**Instructions**: 
+1. Identify all project paths, file paths, repository names, or project directories mentioned
+2. Extract any additional context or personal commentary the user provided about their work
+
+**Output Format:**
+
+### Project Paths
+Return as an array of strings containing:
+- File paths (absolute or relative)
+- Directory/folder names
+- Repository names
+- Project names
+- Any workspace or codebase references
+
+**Example**: `["ProjectA/src/main.py", "MyApp", "/home/user/documents/config.json", "backend-api"]`
+
+### Work Summary
+Provide a brief 2-3 sentence summary of what the user accomplished or is working on, based on any additional context or commentary they provided beyond just file changes.
+
+Focus on:
+- What they were trying to achieve
+- Any challenges or progress they mentioned
+- Personal insights or thoughts they shared about the work
+
+---
+
+**Expected Output Format:**
+
+Return the response as a valid JSON object:
+
+```json
+{
+  "project_paths": ["path1", "path2", "project_name", "repository_name"],
+  "work_summary": "2-3 sentence summary of what the user was working on and any additional context they provided"
+}
+```
+
+**Important**: 
+- Respond ONLY with the JSON object, no additional text
+- Ensure the JSON is valid and properly formatted
+- Use double quotes for all strings
+- Keep the work_summary as a single string
+
+---
+
+**Daily Update Context:**
+{daily_update_context}
+
+---
