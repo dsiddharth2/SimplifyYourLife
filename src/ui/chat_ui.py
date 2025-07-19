@@ -31,8 +31,8 @@ with gr.Blocks(title="SYL") as demo:
             gr.Dropdown(choices=list(TOOLS.keys()), label="Select a Tool")
         ]
     )
-#For Debugging and direct runs
-demo.launch(show_api=False, show_error=False)
+# #For Debugging and direct runs
+# demo.launch(show_api=False, show_error=False)
 
-# if __name__ == "__main__":
-#     demo.launch()
+if __name__ == "__main__":
+    demo.launch()
